@@ -15,6 +15,7 @@ const getTodos = async () => {
 }
 
 const TodoLists = async () => {
+
     const todos = await getTodos();
     return (
         <>

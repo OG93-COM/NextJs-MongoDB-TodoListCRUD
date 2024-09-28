@@ -1,22 +1,25 @@
 "use client"
 import React, { useState } from 'react'
 import axios from 'axios'
-
-const addTodo = async (title, description) => {
-    if (title !== "" && description !== "") {
-        try {
-            const res = await axios.post("http://localhost:3000/api/todos/", { title, description })
-
-        } catch (error) {
-            console.log("Todos Cant Be Added" + error)
-        }
-    }
-
-}
+import { useRouter } from 'next/navigation'
 
 const page = () => {
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const router = useRouter()
+
+    const addTodo = async (title, description) => {
+        if (title !== "" && description !== "") {
+            try {
+                const res = await axios.post("http://localhost:3000/api/todos/", { title, description })
+                router.refresh()
+                router.push('/')
+            } catch (error) {
+                console.log("Todos Cant Be Added" + error)
+            }
+        }
+    }
 
     return (
         <>

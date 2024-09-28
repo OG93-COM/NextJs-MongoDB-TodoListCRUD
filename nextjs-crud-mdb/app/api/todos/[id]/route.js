@@ -16,3 +16,4 @@ export async function GET(request,{params}){
     const todos = await Todo.findOne({_id: id});
     return NextResponse.json({todos}, {status:200})
 }
+

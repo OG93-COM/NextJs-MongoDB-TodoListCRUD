@@ -1,11 +1,11 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import axios from 'axios';
 
 
 const EditTodoForm = ({ id, title, description }) => {
 
-    // const navigate = useRouter()
+    const router = useRouter()
     const [newTitle, setNewTitle] = useState(title);
     const [newDescription, setNewDescription] = useState(description);
 
@@ -21,6 +21,8 @@ const EditTodoForm = ({ id, title, description }) => {
                     console.log("TODO Updated 🏆🏆🏆🏆", newObj)
 
                 })
+                router.push("/")
+                router.refresh()
 
         } catch (error) {
             console.log("Todo update Error :" + error)

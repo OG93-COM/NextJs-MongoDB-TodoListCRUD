@@ -26,7 +26,7 @@ const TodoLists = async () => {
                         <div className='text-md'>{item.description}</div>
                     </div>
                     <div className='flex gap-2'>
-                        <RemoveIcon />
+                        <RemoveIcon id={item._id}/>
                         <Link href={`/editTodo/${item._id}`}>
                             <HiPencilAlt size={24} />
                         </Link>

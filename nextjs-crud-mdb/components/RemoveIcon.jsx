@@ -10,14 +10,17 @@ const RemoveIcon = ({id}) => {
   const router = useRouter()
 
   const removeTodo = async () => {
-    console.log(id)
-    try {
-      const res = await axios.delete(`http://localhost:3000/api/todos/?id=${id}`)
-        console.log("Todos Deleted ✅")
-        router.refresh()
-        
-    } catch (error) {
-      console.log("Todos Cant Be Deleted ❌ " + error)
+    const confirmed = confirm("Are you sure?");
+    if(confirmed){
+      try {
+        const res = await axios.delete(`http://localhost:3000/api/todos/?id=${id}`)
+          console.log("Todos Deleted ✅")
+          router.refresh()
+
+      } catch (error) {
+        console.log("Todos Cant Be Deleted ❌ " + error)
+      }
+
     }
   }
 

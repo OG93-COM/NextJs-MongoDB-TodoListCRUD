@@ -4,7 +4,7 @@ import { SiGnuprivacyguard } from "react-icons/si";
 
 const NavBar = () => {
   return (
-    <nav className="flex justify-between sm:justify-around items-center bg-sky-700 px-4  py-3 rounded-sm shadow-md font-bold">
+    <nav className="flex justify-between sm:justify-around items-center bg-sky-700 px-4 mb-5 py-3 rounded-sm shadow-md font-bold">
       <Link
         href={"/"}
         className="text-blue-100 hover:text-blue-50 duration-500"

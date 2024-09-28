@@ -16,7 +16,8 @@ export async function GET(request){
 }
 
 export async function DELETE(request){
+    const id = request.nextUrl.searchParams.get("id")
     await connectMongoDB();
-    await Todo.deleteOne();
-    return NextResponse.json({ message: "deleted Successfuly" })
+    await Todo.findByIdAndDelete(id)
+    return NextResponse.json({ message: "deleted Successfuly" }, {status: 200})
 }

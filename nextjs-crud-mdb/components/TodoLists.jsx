@@ -2,16 +2,12 @@ import React from 'react'
 import RemoveIcon from './RemoveIcon'
 import Link from 'next/link'
 import { HiPencilAlt } from 'react-icons/hi'
+import axios from 'axios'
 
-const getTodo = async () => {
+const getTodos = async () => {
     try {
-        const res = await fetch("http://localhost:3000/api/todos", {
-            cache: "no-store"
-        });
-        if (!res.ok) {
-            throw new Error("faild to fetch TODOS")
-        }
-        return res.json();
+        const res = await axios.get("http://localhost:3000/api/todos")
+            return res.data;
     } catch (error) {
         console.log("get Todo Error :" + error)
 
@@ -19,7 +15,7 @@ const getTodo = async () => {
 }
 
 const TodoLists = async () => {
-    const todos = await getTodo();
+    const todos = await getTodos();
     return (
         <>
             {todos?.map((item,idx) => (

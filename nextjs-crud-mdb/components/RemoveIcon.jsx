@@ -15,7 +15,7 @@ const RemoveIcon = ({id}) => {
       const res = await axios.delete(`http://localhost:3000/api/todos/?id=${id}`)
         console.log("Todos Deleted ✅")
         router.refresh()
-        router.push("/")
+        
     } catch (error) {
       console.log("Todos Cant Be Deleted ❌ " + error)
     }

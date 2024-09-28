@@ -3,9 +3,11 @@ import RemoveIcon from './RemoveIcon'
 import Link from 'next/link'
 import { HiPencilAlt } from 'react-icons/hi'
 
-const getTodos = async () => {
+const getTodo = async () => {
     try {
-        const res = await fetch('http://localhost:3000/api/todos/')
+        const res = await fetch("http://localhost:3000/api/todos", {
+            cache: "no-store"
+        });
         if (!res.ok) {
             throw new Error("faild to fetch TODOS")
         }
@@ -17,7 +19,7 @@ const getTodos = async () => {
 }
 
 const TodoLists = async () => {
-    const { todos } = await getTodos()
+    const todos = await getTodo();
     console.log("Here TODO 📝📝📝📝",todos)
     return (
         <>
@@ -26,11 +28,11 @@ const TodoLists = async () => {
                 <div className='flex justify-between items-start my-2 rounded p-4 border border-slate-300'>
                     <div>
                         <h2 className='text-2xl font-bold '>{item.title}</h2>
-                        <div className='text-md'>Todo Discription</div>
+                        <div className='text-md'>{item.description}</div>
                     </div>
                     <div className='flex gap-2'>
                         <RemoveIcon />
-                        <Link href={'/editTodo/id'}>
+                        <Link href={`/editTodo/${item._id}`}>
                             <HiPencilAlt size={24} />
                         </Link>
                     </div>

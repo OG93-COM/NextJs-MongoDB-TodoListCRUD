@@ -20,12 +20,11 @@ const getTodo = async () => {
 
 const TodoLists = async () => {
     const todos = await getTodo();
-    console.log("Here TODO 📝📝📝📝",todos)
     return (
         <>
-            {todos?.map(item => (
+            {todos?.map((item,idx) => (
 
-                <div className='flex justify-between items-start my-2 rounded p-4 border border-slate-300'>
+                <div key={idx} className='flex justify-between items-start my-2 rounded p-4 border border-slate-300'>
                     <div>
                         <h2 className='text-2xl font-bold '>{item.title}</h2>
                         <div className='text-md'>{item.description}</div>
@@ -39,7 +38,6 @@ const TodoLists = async () => {
                 </div>
             ))
             }
-
         </>
     )
 }

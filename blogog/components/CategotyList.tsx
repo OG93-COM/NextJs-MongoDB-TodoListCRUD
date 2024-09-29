@@ -24,8 +24,8 @@ const CategotyList = () => {
   return (
     <div className="flex justify-start items-center gap-2 flex-wrap">
       {categoryData.map((item) => (
-        <Link href={`/categories/${item.name}`}>
-          <div className="category-btn">{item.name}</div>
+        <Link className="category-btn" href={`/categories/${item.name}`}>
+          {item.name}
         </Link>
       ))}
     </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { SiGnuprivacyguard } from "react-icons/si";
+import { IoMdLogIn } from "react-icons/io";
 import Image from "next/image";
 const NavBar = () => {
   return (
@@ -13,10 +13,10 @@ const NavBar = () => {
           BLOGOG .
         </Link>
         <Link
-          href={"/singup"}
-          className="btnSignup"
+          href={"/signin"}
+          className="btnSignin"
         >
-          SignUp <SiGnuprivacyguard />
+          Sign In <IoMdLogIn />
         </Link>
       </nav>
       <div className="bg-[url('../assets/bg.jpg')] h-[350px] w-full mx-auto  shadow-lg mb-10">

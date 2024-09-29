@@ -18,6 +18,11 @@ h1 {
   @apply rounded-xl text-sm bg-sky-800 px-4 py-2 text-sky-50 font-semibold hover:scale-105 duration-200 cursor-pointer
 }
 
+.category-post-btn {
+  @apply rounded-md text-xs bg-sky-800 px-2 py-1 text-sky-50 font-bold hover:scale-105 duration-200 cursor-pointer
+}
+
+
 .btn-singin-platform {
   @apply flex justify-center items-center gap-5 w-[300px] border shadow-sm my-2 p-4 rounded-full hover:text-slate-700 hover:scale-105 duration-200 cursor-pointer
 }

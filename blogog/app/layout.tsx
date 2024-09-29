@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar/>
-        <main className=" lg:max-w-[1000px] mx-auto shadow-lg py-10">
+        <main className=" lg:max-w-[1000px] mx-auto shadow-lg py-10 min-h-[500px]">
 
         {children}
         </main>

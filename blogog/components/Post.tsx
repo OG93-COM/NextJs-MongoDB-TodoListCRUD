@@ -3,7 +3,6 @@ import { postsData } from "../data";
 import Image from "next/image";
 
 const Post = () => {
-  console.log(postsData);
   return (
     <div className="mt-5">
       {postsData?.map((item) => (

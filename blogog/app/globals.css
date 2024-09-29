@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+  @apply font-bold text-2xl
+}
+
 .btnSignin {
   @apply flex justify-center items-center gap-2 bg-sky-100/90 px-4 py-1 rounded-sm text-sky-800 hover:text-sky-600 hover:scale-105 duration-300
 }
@@ -15,5 +19,5 @@
 }
 
 .btn-singin-platform {
-  @apply flex justify-center items-center gap-5 w-[300px] border shadow-sm my-2 p-4 rounded-3xl hover:text-slate-700 hover:scale-105 duration-200 cursor-pointer
+  @apply flex justify-center items-center gap-5 w-[300px] border shadow-sm my-2 p-4 rounded-full hover:text-slate-700 hover:scale-105 duration-200 cursor-pointer
 }

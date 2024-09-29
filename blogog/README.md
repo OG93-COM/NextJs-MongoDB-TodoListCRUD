@@ -1,1 +1,1 @@
-<img width="795" alt="BLOGOG" src="https://github.com/user-attachments/assets/40f4dc07-0366-4167-85ae-4e121b4fcf69">
+![BLOGOG](https://github.com/user-attachments/assets/5761849a-8074-4004-b676-2ffc14e16b89)

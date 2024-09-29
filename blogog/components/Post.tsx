@@ -1,15 +1,23 @@
-import React from 'react'
-import {postsData} from '../data'
+import React from "react";
+import { postsData } from "../data";
+import Image from "next/image";
 
 const Post = () => {
-    console.log(postsData)
+  console.log(postsData);
   return (
-    <div className='mt-5'>
-        {postsData?.map(item => (
-            <p>{item.title}</p>
-        ))}
-    </div>
-  )
-}
+    <div className="mt-5">
+      {postsData?.map((item) => (
+        <article className="py-4">
+          <h1 className="mb-2">{item.title}</h1>
+          <Image className="rounded-xl shadow-sm my-2" src={item.thumbnail} width={900} height={250} alt={item.title}/>
+          <p>{item.content}</p>
+          <p>{item.category}</p>
 
-export default Post
+          <hr className="mt-10"/>
+        </article>
+      ))}
+    </div>
+  );
+};
+
+export default Post;

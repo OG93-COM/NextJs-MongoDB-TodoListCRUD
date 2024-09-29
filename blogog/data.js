@@ -8,7 +8,7 @@ export const postsData = [
       category: "UX Designer",
       links: ["https://example.com/ux-principles"],
       thumbnail:
-        "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg",
+        "https://images.pexels.com/photos/3182821/pexels-photo-3182821.jpeg",
     },
     {
       id: "2",
@@ -85,7 +85,7 @@ export const postsData = [
       category: "BackEnd Developer",
       links: ["https://example.com/docker-backend"],
       thumbnail:
-        "https://images.pexels.com/photos/3182831/pexels-photo-3182831.jpeg",
+        "https://images.pexels.com/photos/3182821/pexels-photo-3182821.jpeg",
     },
     {
       id: "9",

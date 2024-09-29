@@ -1,9 +1,13 @@
+import CategotyList from "@/components/CategotyList";
 import Image from "next/image";
+
 
 export default function Home() {
   return (
     <>
-    <h1>BLOGOG</h1>
+      <div className="border mx-1 p-4 lg:px-10">
+        <CategotyList />
+      </div>
     </>
   );
 }

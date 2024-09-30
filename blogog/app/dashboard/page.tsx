@@ -2,11 +2,19 @@ import Post from "@/components/Post";
 import { postsData } from "@/data";
 import Link from "next/link";
 import React from "react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
-const page = () => {
+const page = async () => {
+  const session = await getServerSession(authOptions)
+  console.log(session)
+  if(!session){
+    redirect("/signin")
+  }
   return (
     <div className="">
-      <h1 className="title-page">My Posts</h1>
+      <h1 className="title-page">My Posts : {session?.user?.name}</h1>
       <div className="mx-1 p-4 lg:px-10">
         {postsData?.length > 0 ? (
           postsData.map((item) => (

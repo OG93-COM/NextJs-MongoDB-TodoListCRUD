@@ -3,7 +3,7 @@ export const postsData = [
     id: "1",
     title: "Essential UX Design Principles for Beginners",
     content:
-      "Learn the core principles of UX design that every beginner must know to create user-centered designs.",
+      "Learn the core principles of UX design that every beginner must know to create user-centered designs.Learn the core principles of UX design that every beginner must know to create user-centered designs.Learn the core principles of UX design that every beginner must know to create user-centered designs.Learn the core principles of UX design that every beginner must know to create user-centered designs.Learn the core principles of UX design that every beginner must know to create user-centered designs.Learn the core principles of UX design that every beginner must know to create user-centered designs.",
     author: "Alex Morgan",
     datepublished: "2023-09-20",
     category: "UX Designer",
@@ -119,3 +119,22 @@ export const postsData = [
       "https://images.pexels.com/photos/3184406/pexels-photo-3184406.jpeg",
   },
 ];
+
+export const categoryData = [
+    {
+      id: 1,
+      name: "UX Design",
+    },
+    {
+      id: 2,
+      name: "FrontEnd",
+    },
+    {
+      id: 3,
+      name: "BackEnd",
+    },
+    {
+      id: 4,
+      name: "UI Design",
+    },
+  ];

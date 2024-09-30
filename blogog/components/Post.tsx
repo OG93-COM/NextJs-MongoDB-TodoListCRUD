@@ -2,6 +2,9 @@ import React from "react";
 import { postsData } from "../data";
 import Image from "next/image";
 import Link from "next/link";
+import { IoLink } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
+import DeleteBtn from "./DeleteBtn";
 
 interface postProps {
   id: string;
@@ -14,6 +17,7 @@ interface postProps {
   links?: string[];
   authoremail: string;
 }
+
 const Post = ({
   id,
   title,
@@ -25,9 +29,10 @@ const Post = ({
   links,
   authoremail,
 }: postProps) => {
+  const isEditable = true;
   return (
-    <div className="mt-5">
-      <article className="py-4 flex flex-col">
+    <div className="mt-5 border-b py-4">
+      <article className="flex flex-col">
         <h1 className="mb-3">{title}</h1>
         <div className="w-full my-2 relative h-72">
           {thumbnail ? (
@@ -46,27 +51,47 @@ const Post = ({
             />
           )}
         </div>
-        <div className="flex justify-between items-center text-xs px-2">
+        <div className="flex justify-between items-start text-xs px-2">
           {category && <div className="category-post-btn">{category}</div>}
           <p>
             Posted by <span className="font-bold">{author} </span>
             on {datepublished}
           </p>
         </div>
-        <p className="mt-4">{content}</p>
+        <p className="my-4 leading-tight tracking-tight text-slate-700">
+          {content.slice(0, 155)}
+          {content.length > 155 && "... "}
+          {content.length > 155 && (
+            <Link className="text-sm text-sky-700 hover:text-sky-500" href={""}>
+              Learn More
+            </Link>
+          )}
+        </p>
 
         {links && links.length > 0 && (
           <div>
             {links?.map((link, idx) => (
-              <div key={idx} className="text-sky-800 font-semibold">
-                <Link key={idx} href={link}>
-                  🔗 {link}
+              <div key={idx} className="text-sky-600 text-sm font-semibold">
+                <Link
+                  key={idx}
+                  href={link}
+                  className="flex flex-row items-center gap-2 hover:text-sky-400 max-w-full overflow-hidden"
+                >
+                  <IoLink /> {link}
                 </Link>
               </div>
             ))}
           </div>
         )}
-        <hr className="mt-10" />
+        <div>
+          {isEditable && (
+            <div className="flex items-center gap-4 mt-4">
+                <Link href={`/edit-post/${id}`} className="flex items-center gap-1 hover:scale-105 duration-300"><FaRegEdit size={18}/> Edit</Link>
+                <DeleteBtn/>
+              
+            </div>
+          )}
+        </div>
       </article>
     </div>
   );

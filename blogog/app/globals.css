@@ -34,3 +34,7 @@ h1 {
 input, textarea {
   @apply mb-4
 }
+
+.picture-profile {
+  @apply rounded-full border border-sky-300 shadow-md mx-1 cursor-pointer hover:scale-105 duration-300
+}

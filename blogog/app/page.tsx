@@ -23,7 +23,7 @@ export default async function Home() {
       <div className="mx-1 p-4 lg:px-10">
         <CategotyList />
 
-        {posts?.length > 0 ? posts?.map((post) => (
+        {posts?.length > 0 ? posts?.map((post:TPost) => (
               <Post
                 key={post.id}
                 id={post.id}

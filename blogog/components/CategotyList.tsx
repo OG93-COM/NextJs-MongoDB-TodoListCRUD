@@ -21,7 +21,7 @@ const CategotyList = async () => {
 
   return (
     <div className="flex justify-start items-center gap-2 flex-wrap mb-4">
-      {category?.map((item: any) => (
+      {category?.map((item: TCategory) => (
         <Link
           key={item.id}
           className="category-btn"

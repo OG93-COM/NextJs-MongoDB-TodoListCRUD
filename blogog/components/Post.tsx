@@ -30,7 +30,7 @@ const Post = async ({
   datepublished,
   links,
   authoremail,
-}: postProps) => {
+}: (postProps)) => {
   const session = await getServerSession(authOptions);
   const isEditable = session && session?.user?.email === authoremail;
 
@@ -105,7 +105,7 @@ const Post = async ({
               >
                 <FaRegEdit size={18} /> Edit
               </Link>
-              <DeleteBtn />
+              <DeleteBtn id={id} />
             </div>
           )}
         </div>

@@ -1,15 +1,35 @@
 "use client";
 
-import { categoryData } from "@/data";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoLink } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
+import { TCategory } from "@/app/types";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const AddPostForm = () => {
   const [links, setLinks] = useState<string[]>([]);
   const [linkInput, setLinkInput] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [categories, setCategories] = useState<TCategory[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [publicId, setPublicId] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter()
+
+  useEffect( () => {
+    const fetchCategories = async () => {
+      const res = await axios.get("/api/categories")
+      
+      console.log(res.data)
+      setCategories(res.data)
+    }
+    fetchCategories()
+  }, [])
 
   const addlink = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -22,17 +42,37 @@ const AddPostForm = () => {
   const deleteLink = (index:number) => {
     setLinks(prev => prev.filter((_,i)=> i !== index))
   }
+
+  const handleSubmit = async (e:React.FormEvent) => {
+    e.preventDefault()
+    if(!title || !content){
+      setError("Title and content Are required")
+      return
+    }
+    try {
+      const res = await axios.post("api/posts/", { title, content, links, imageUrl, selectedCategory, publicId })
+      if(res.status === 200){
+        setError("");
+        router.push("/")
+      }
+    } catch (err) {
+      console.log(err)
+      setError("Post cant be ceated")
+    }
+  }
   return (
     <div>
       <h1 className="title-page">Add new post</h1>
-      <form className="p-6">
+      <form className="p-6" onSubmit={handleSubmit}>
         <input
+          onChange={e => setTitle(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="title"
           type="text"
           placeholder="Post title"
         />
         <textarea
+          onChange={e => setContent(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="title"
           rows={5}
@@ -77,11 +117,13 @@ const AddPostForm = () => {
         )}
 
         <div className="mb-4">
-          <select className="block appearance-none w-full bg-white border border-gray-200 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+          <select
+          onChange={e => setSelectedCategory(e.target.value)}
+          className="block appearance-none w-full bg-white border border-gray-200 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
             <option value={""}>Select Category</option>
-            {categoryData?.map((item) => (
-              <option key={item.id} value={item.name}>
-                {item.name}
+            {categories?.map((item) => (
+              <option key={item.id} value={item.catName}>
+                {item.catName}
               </option>
             ))}
           </select>
@@ -93,7 +135,7 @@ const AddPostForm = () => {
           Create Post
         </button>
         <div className="text-red-500 font-bold text-sm mt-2">
-          Title and Content are required.
+          {error && <div>{error}</div>}
         </div>
       </form>
     </div>

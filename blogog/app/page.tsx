@@ -1,28 +1,40 @@
 import CategotyList from "@/components/CategotyList";
 import Post from "@/components/Post";
-import { postsData } from "@/data";
+import axios from "axios";
 import Image from "next/image";
+import { TPost } from "./types";
 
+const getPosts = async ():Promise<TPost [] | null> => {
+  try {
+    const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/posts`);
+    const postsData = await res.data;
+    return postsData;
+  } catch (error) {
+    console.log(error);
+  }
+  return null
+};
 
-export default function Home() {
-
+export default async function Home() {
+  const posts = await getPosts();
+  console.log(posts)
   return (
     <>
       <div className="mx-1 p-4 lg:px-10">
         <CategotyList />
-        {postsData?.length > 0
-          ? postsData.map((item) => (
+
+        {posts?.length > 0 ? posts?.map((post) => (
               <Post
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                content={item.content}
-                author={item.author}
-                category={item.category}
-                datepublished={item.datepublished}
-                links={item.links || []}
-                thumbnail={item.thumbnail}
-                authoremail={"contact@og93.com"}
+                key={post.id}
+                id={post.id}
+                title={post.title}
+                content={post.content}
+                author={post.author.name}
+                category={post.catName}
+                datepublished={post.createdAt}
+                links={post.links || []}
+                thumbnail={post.imageUrl}
+                authoremail={post.authorEmail}
               />
             ))
           : "No Posts Available"}

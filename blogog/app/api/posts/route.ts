@@ -6,13 +6,15 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
 
-    const authorEmail = "contact@og93.com"
+    
+
     const session = await getServerSession(authOptions)
     if(!session){
         return NextResponse.json({error:"not authentificated"},{status:401})
     }
 
     const {title, content, links, imgUrl, selectedCategory, publicId } = await req.json()
+    const authorEmail = session?.user?.email as string
 
     if(!title || !content) {
         return NextResponse.json({error:"Title and Content Are Required"},{status:500})

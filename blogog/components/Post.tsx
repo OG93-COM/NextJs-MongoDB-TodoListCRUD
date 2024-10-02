@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { postsData } from "../data";
 import Image from "next/image";
 import Link from "next/link";
 import { IoLink } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import DeleteBtn from "./DeleteBtn";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 interface postProps {
   id: string;
@@ -18,7 +20,7 @@ interface postProps {
   authoremail: string;
 }
 
-const Post = ({
+const Post = async ({
   id,
   title,
   content,
@@ -29,7 +31,18 @@ const Post = ({
   links,
   authoremail,
 }: postProps) => {
-  const isEditable = true;
+  const session = await getServerSession(authOptions);
+  const isEditable = session && session?.user?.email === authoremail;
+
+  //Date Format
+  const dateObj = new Date(datepublished);
+  const option: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  };
+  const formatDate = dateObj.toLocaleDateString("fr-FR", option);
+
   return (
     <div className="mt-5 border-b py-4">
       <article className="flex flex-col">
@@ -55,7 +68,7 @@ const Post = ({
           {category && <div className="category-post-btn">{category}</div>}
           <p>
             Posted by <span className="font-bold">{author} </span>
-            on {datepublished}
+            on {formatDate}
           </p>
         </div>
         <p className="my-4 leading-tight tracking-tight text-slate-700">
@@ -86,9 +99,13 @@ const Post = ({
         <div>
           {isEditable && (
             <div className="flex items-center gap-4 mt-4">
-                <Link href={`/edit-post/${id}`} className="flex items-center gap-1 hover:scale-105 duration-300"><FaRegEdit size={18}/> Edit</Link>
-                <DeleteBtn/>
-              
+              <Link
+                href={`/edit-post/${id}`}
+                className="flex items-center gap-1 hover:scale-105 duration-300"
+              >
+                <FaRegEdit size={18} /> Edit
+              </Link>
+              <DeleteBtn />
             </div>
           )}
         </div>

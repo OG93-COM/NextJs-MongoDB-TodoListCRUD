@@ -63,7 +63,6 @@ const EditPostForm = ({post}:{post:TPost}) => {
     }
     
     try {
-      console.log(post.id)
       const res = await axios.put(`/api/posts/${post.id}`, { title, content, links, imageUrl, selectedCategory, publicId })
       if(res.status === 200){
         setError("");
@@ -117,12 +116,12 @@ const EditPostForm = ({post}:{post:TPost}) => {
         {links?.length > 0 && (
           <div className="mb-3">
             {links.map((item, idx) => (
-              <div className="flex items-center gap-1">
+              <div key={idx} className="flex items-center gap-1">
                 <IoLink size={14}/>
                 <Link
                   className="text-sky-600 hover:text-sky-400 flex justify-start items-center gap-2 text-nowrap overflow-hidden text-ellipsis"
                   href={item}
-                  key={idx}
+                  
                 >
                    {item}
                 </Link>

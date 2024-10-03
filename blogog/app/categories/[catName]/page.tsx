@@ -8,7 +8,7 @@ import Link from "next/link";
 const getPosts = async (cat:string):Promise<TPost [] | null> => {
     try {
       const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/posts`);
-      const postsData = await res.data.filter(post => post.catName.toLowerCase().replaceAll('%20'," ") === cat.toLowerCase().replaceAll('%20'," "))
+      const postsData = await res.data.filter((post:TCategory) => decodeURIComponent(post.catName) == decodeURIComponent(cat))
       return postsData;
     } catch (error) {
       console.log(error);
@@ -26,12 +26,15 @@ const page = async ({params}:{params:{catName:string}}) => {
   return (
     <div className="mx-1 p-4 lg:px-10">
         <>
-        <div
+        <div className="flex justify-start items-center gap-4">
+        <p className="font-semibold">Category : </p>
+        <span
           className="category-btn"
         >
-          {category.replaceAll("%20", " ")}
+          {decodeURIComponent(category)}
+        </span>
         </div>
-        {posts?.length > 0 ? posts?.map((post:TPost) => (
+        {posts && posts.length > 0 ? posts?.map((post:TPost) => (
               <Post
                 key={post.id}
                 id={post.id}

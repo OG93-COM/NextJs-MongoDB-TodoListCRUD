@@ -66,10 +66,14 @@ const Post = async ({
         </div>
         <div className="flex justify-between items-start text-xs px-2">
           {category && <div className="category-post-btn">{category}</div>}
-          <p>
-            Posted by <span className="font-bold">{author} </span>
-            on {formatDate}
-          </p>
+          {author ? (
+                <p>
+                    Posted by <span className="font-bold">{author} </span>
+                    on {formatDate}
+                </p>
+          ): (
+                <p>Posted on {formatDate}</p>
+          )}
         </div>
         <p className="my-4 leading-tight tracking-tight text-slate-700">
           {content.slice(0, 155)}

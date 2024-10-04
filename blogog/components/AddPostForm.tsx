@@ -8,6 +8,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { TCategory } from "@/app/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { CldUploadButton } from 'next-cloudinary';
 
 const AddPostForm = () => {
   const [links, setLinks] = useState<string[]>([]);
@@ -115,7 +116,9 @@ const AddPostForm = () => {
             ))}
           </div>
         )}
-
+        <div>
+        <CldUploadButton uploadPreset="zpjvrpbk" />
+        </div>
         <div className="mb-4">
           <select
           onChange={e => setSelectedCategory(e.target.value)}

@@ -12,9 +12,8 @@ export type TPost = {
     catName?: string,
     links: null | [],
     createdAt: string,
+    authorEmail:string,
     author: {
         name: string
     },
-    authorEmail:string,
-
 }

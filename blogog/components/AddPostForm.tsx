@@ -5,10 +5,12 @@ import React, { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoLink } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
-import { TCategory } from "@/app/types";
+import { TCategory, UploadResult } from "@/app/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { CldUploadButton } from 'next-cloudinary';
+import { FaRegImages } from "react-icons/fa";
+import { CldUploadWidget } from "next-cloudinary";
+import Image from "next/image";
 
 const AddPostForm = () => {
   const [links, setLinks] = useState<string[]>([]);
@@ -20,17 +22,19 @@ const AddPostForm = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [publicId, setPublicId] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter()
+  const [imgRessource, setImgRessource] = useState([]);
 
-  useEffect( () => {
+  const router = useRouter();
+
+  useEffect(() => {
     const fetchCategories = async () => {
-      const res = await axios.get("/api/categories")
-      
-      console.log(res.data)
-      setCategories(res.data)
-    }
-    fetchCategories()
-  }, [])
+      const res = await axios.get("/api/categories");
+
+      console.log(res.data);
+      setCategories(res.data);
+    };
+    fetchCategories();
+  }, []);
 
   const addlink = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -40,40 +44,49 @@ const AddPostForm = () => {
     }
   };
 
-  const deleteLink = (index:number) => {
-    setLinks(prev => prev.filter((_,i)=> i !== index))
-  }
+  const deleteLink = (index: number) => {
+    setLinks((prev) => prev.filter((_, i) => i !== index));
+  };
 
-  const handleSubmit = async (e:React.FormEvent) => {
-    e.preventDefault()
-    if(!title || !content){
-      setError("Title and content Are required")
-      return
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title || !content) {
+      setError("Title and content Are required");
+      return;
     }
     try {
-      const res = await axios.post("api/posts/", { title, content, links, imageUrl, selectedCategory, publicId })
-      if(res.status === 200){
+      const res = await axios.post("api/posts/", {
+        title,
+        content,
+        links,
+        imageUrl,
+        selectedCategory,
+        publicId,
+      });
+      if (res.status === 200) {
         setError("");
-        router.push("/")
+        router.push("/");
       }
     } catch (err) {
-      console.log(err)
-      setError("Post cant be ceated")
+      console.log(err);
+      setError("Post cant be ceated");
     }
-  }
+  };
   return (
     <div>
       <h1 className="title-page">Add new post</h1>
       <form className="p-6" onSubmit={handleSubmit}>
         <input
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="title"
           type="text"
           placeholder="Post title"
         />
         <textarea
-          onChange={e => setContent(e.target.value)}
+          onChange={(e) => setContent(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="title"
           rows={5}
@@ -101,28 +114,51 @@ const AddPostForm = () => {
           <div className="mb-3">
             {links.map((item, idx) => (
               <div className="flex items-center gap-1">
-                <IoLink size={14}/>
+                <IoLink size={14} />
                 <Link
                   className="text-sky-600 hover:text-sky-400 flex justify-start items-center gap-2 text-nowrap overflow-hidden text-ellipsis"
                   href={item}
                   key={idx}
                 >
-                   {item}
+                  {item}
                 </Link>
-                <span onClick={()=>deleteLink(idx)} className="cursor-pointer hover:scale-105 duration-300">
+                <span
+                  onClick={() => deleteLink(idx)}
+                  className="cursor-pointer hover:scale-105 duration-300"
+                >
                   <AiOutlineDelete size={20} color="tomato" />
                 </span>
               </div>
             ))}
           </div>
         )}
-        <div>
-        <CldUploadButton uploadPreset="zpjvrpbk" />
-        </div>
+
+        <CldUploadWidget
+          uploadPreset="zpjvrpbk"
+          onSuccess={(result) => {
+            setPublicId(result?.info?.public_id as string)
+            setImageUrl(result?.info?.url as string)
+          }}
+        >
+          {({open}) => {
+            return (
+              <div onClick={()=> open()}
+              className="relative flex flex-col justify-center items-center gap-2 hover:scale-105 duration-300 bg-sky-50 h-28 w-full my-2 text-gray-500 font-semibold text-xs rounded-xl border border-dashed cursor-pointer">
+            <FaRegImages size={24} />
+            Upload Image for the post
+            {imageUrl && (
+          <Image src={imageUrl} fill alt={title} className="rounded-2xl absolute object-cover inset-0"/>
+        )}
+          </div>
+            )
+          }}
+        </CldUploadWidget>
+        
         <div className="mb-4">
           <select
-          onChange={e => setSelectedCategory(e.target.value)}
-          className="block appearance-none w-full bg-white border border-gray-200 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="block appearance-none w-full bg-white border border-gray-200 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          >
             <option value={""}>Select Category</option>
             {categories?.map((item) => (
               <option key={item.id} value={item.catName}>

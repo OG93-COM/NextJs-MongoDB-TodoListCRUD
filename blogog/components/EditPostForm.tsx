@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { FaRegImages } from "react-icons/fa";
 import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
+import { FcRemoveImage } from "react-icons/fc";
 
 
 const EditPostForm = ({post}:{post:TPost}) => {
@@ -57,6 +58,20 @@ const EditPostForm = ({post}:{post:TPost}) => {
     setLinks(prev => prev.filter((_,i)=> i !== index))
   }
 
+  const removeImage = async (e:React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const res = await axios.post('/api/removeImg', {publicId})
+      console.log(publicId)
+    if(res.status === 200){
+      setPublicId('')
+      setImgUrl('')
+    }
+    } catch (error) {
+      console.log("Image Cant be Rremoved ", error)
+    }
+  }
+  
   const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault()
     
@@ -69,7 +84,9 @@ const EditPostForm = ({post}:{post:TPost}) => {
       const res = await axios.put(`/api/posts/${post.id}`, { title, content, links, imgUrl, selectedCategory, publicId })
       if(res.status === 200){
         setError("");
+        
         router.push("/dashboard")
+        router.refresh()
       }
       
     } catch (err) {

@@ -20,6 +20,7 @@ const getPosts = async (email: string) => {
 
 const page = async () => {
   const session = await getServerSession(authOptions);
+  const userName = session?.user
 
   if (!session) {
     redirect("/signin");
@@ -28,6 +29,7 @@ const page = async () => {
   let posts = [];
   if (email) {
     posts = await getPosts(email);
+    console.log(posts)
   }
 
   return (
@@ -41,7 +43,7 @@ const page = async () => {
               id={post.id}
               title={post.title}
               content={post.content}
-              author={""}
+              author={session?.user?.name}
               category={post.catName}
               datepublished={post.createdAt}
               links={post.links || []}

@@ -8,6 +8,9 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { TCategory, TPost } from "@/app/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { FaRegImages } from "react-icons/fa";
+import Image from "next/image";
+import { CldUploadWidget } from "next-cloudinary";
 
 
 const EditPostForm = ({post}:{post:TPost}) => {
@@ -130,6 +133,43 @@ const EditPostForm = ({post}:{post:TPost}) => {
                 </span>
               </div>
             ))}
+          </div>
+        )}
+
+        <CldUploadWidget
+          uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+          onSuccess={(result) => {
+            setPublicId(result?.info?.public_id as string);
+            setImgUrl(result?.info?.url as string);
+          }}
+        >
+          {({ open }) => {
+            return (
+              <div
+                onClick={() => open()}
+                className="relative flex flex-col justify-center items-center gap-2 hover:scale-105 duration-300 bg-sky-50 h-28 w-full my-2 text-gray-500 font-semibold text-xs rounded-xl border border-dashed cursor-pointer"
+              >
+                <FaRegImages size={24} />
+                Upload Image for the post
+                {imgUrl && (
+                  <Image
+                    src={imgUrl}
+                    fill
+                    alt={title}
+                    className="rounded-xl absolute object-cover inset-0"
+                  />
+                )}
+              </div>
+            );
+          }}
+        </CldUploadWidget>
+        {publicId && (
+          <div
+            className="flex items-center gap-2 pb-5 cursor-pointer text-red-600 text-sm font-medium "
+            onClick={removeImage}
+          >
+            <FcRemoveImage size={24} className="hover:scale-105" />
+            Remove Image
           </div>
         )}
 

@@ -12,9 +12,9 @@ import { FaRegImages } from "react-icons/fa";
 import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
 import { FcRemoveImage } from "react-icons/fc";
+import { toast } from "react-hot-toast";
 
-
-const EditPostForm = ({post}:{post:TPost}) => {
+const EditPostForm = ({ post }: { post: TPost }) => {
   const [links, setLinks] = useState<string[]>([]);
   const [linkInput, setLinkInput] = useState("");
   const [title, setTitle] = useState("");
@@ -24,27 +24,33 @@ const EditPostForm = ({post}:{post:TPost}) => {
   const [imgUrl, setImgUrl] = useState("");
   const [publicId, setPublicId] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter()
-  
-  useEffect( () => {
+  const router = useRouter();
+
+  useEffect(() => {
     const fetchCategories = async () => {
-      const res = await axios.get("/api/categories")
-      setCategories(res.data)
-      
-    }
-    fetchCategories()
+      const res = await axios.get("/api/categories");
+      setCategories(res.data);
+    };
+    fetchCategories();
 
-    const initialitionValue = () =>{
-      setTitle(post.title)
-      setContent(post.content)
-      setImgUrl(post.imgUrl || "")
-      setPublicId(post.publicId)
-      setSelectedCategory(post.catName || "")
-      setLinks(post.links || [])
-    }
+    const initialitionValue = () => {
+      setTitle(post.title);
+      setContent(post.content);
+      setImgUrl(post.imgUrl || "");
+      setPublicId(post.publicId);
+      setSelectedCategory(post.catName || "");
+      setLinks(post.links || []);
+    };
 
-    initialitionValue()
-  }, [post.title, post.content, post.imgUrl, post.publicId, post.catName, post.links])
+    initialitionValue();
+  }, [
+    post.title,
+    post.content,
+    post.imgUrl,
+    post.publicId,
+    post.catName,
+    post.links,
+  ]);
 
   const addlink = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -54,53 +60,60 @@ const EditPostForm = ({post}:{post:TPost}) => {
     }
   };
 
-  const deleteLink = (index:number) => {
-    setLinks(prev => prev.filter((_,i)=> i !== index))
-  }
+  const deleteLink = (index: number) => {
+    setLinks((prev) => prev.filter((_, i) => i !== index));
+  };
 
-  const removeImage = async (e:React.FormEvent) => {
-    e.preventDefault()
+  const removeImage = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      const res = await axios.post('/api/removeImg', {publicId})
-      console.log(publicId)
-    if(res.status === 200){
-      setPublicId('')
-      setImgUrl('')
-    }
-    } catch (error) {
-      console.log("Image Cant be Rremoved ", error)
-    }
-  }
-  
-  const handleSubmit = async (e:React.FormEvent) => {
-    e.preventDefault()
-    
-    if(!title || !content){
-      setError("Title and content Are required")
-      return
-    }
-    
-    try {
-      const res = await axios.put(`/api/posts/${post.id}`, { title, content, links, imgUrl, selectedCategory, publicId })
-      if(res.status === 200){
-        setError("");
-        
-        router.push("/dashboard")
-        router.refresh()
+      const res = await axios.post("/api/removeImg", { publicId });
+      console.log(publicId);
+      if (res.status === 200) {
+        setPublicId("");
+        setImgUrl("");
       }
-      
-    } catch (err) {
-      console.log(err)
-      setError("Post cant be updated")
+    } catch (error) {
+      console.log("Image Cant be Rremoved ", error);
     }
-  }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!title || !content) {
+      setError("Title and content Are required");
+      return;
+    }
+
+    try {
+      const res = await axios.put(`/api/posts/${post.id}`, {
+        title,
+        content,
+        links,
+        imgUrl,
+        selectedCategory,
+        publicId,
+      });
+      if (res.status === 200) {
+        toast.success('Post Edited With success')
+        setError("");
+
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Post cant be updated");
+    }
+  };
 
   return (
     <div>
       <h1 className="title-page">Edit post</h1>
       <form className="p-6" onSubmit={handleSubmit}>
         <input
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           value={title}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="title"
@@ -108,7 +121,7 @@ const EditPostForm = ({post}:{post:TPost}) => {
           placeholder="Post title"
         />
         <textarea
-          onChange={e => setContent(e.target.value)}
+          onChange={(e) => setContent(e.target.value)}
           value={content}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="title"
@@ -137,15 +150,17 @@ const EditPostForm = ({post}:{post:TPost}) => {
           <div className="mb-3">
             {links.map((item, idx) => (
               <div key={idx} className="flex items-center gap-1">
-                <IoLink size={14}/>
+                <IoLink size={14} />
                 <Link
                   className="text-sky-600 hover:text-sky-400 flex justify-start items-center gap-2 text-nowrap overflow-hidden text-ellipsis"
                   href={item}
-                  
                 >
-                   {item}
+                  {item}
                 </Link>
-                <span onClick={()=>deleteLink(idx)} className="cursor-pointer hover:scale-105 duration-300">
+                <span
+                  onClick={() => deleteLink(idx)}
+                  className="cursor-pointer hover:scale-105 duration-300"
+                >
                   <AiOutlineDelete size={20} color="tomato" />
                 </span>
               </div>
@@ -192,9 +207,10 @@ const EditPostForm = ({post}:{post:TPost}) => {
 
         <div className="mb-4">
           <select
-          onChange={e => setSelectedCategory(e.target.value)}
-          value={selectedCategory}
-          className="block appearance-none w-full bg-white border border-gray-200 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={selectedCategory}
+            className="block appearance-none w-full bg-white border border-gray-200 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          >
             <option value={""}>Select Category</option>
             {categories?.map((item) => (
               <option key={item.id} value={item.catName}>

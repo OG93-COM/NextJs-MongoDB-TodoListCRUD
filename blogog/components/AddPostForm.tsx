@@ -13,6 +13,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { IoLink } from "react-icons/io5";
 import { FaRegImages } from "react-icons/fa";
 import { FcRemoveImage } from "react-icons/fc";
+import { toast } from "react-hot-toast";
 
 const AddPostForm = () => {
   const [links, setLinks] = useState<string[]>([]);
@@ -54,6 +55,7 @@ const AddPostForm = () => {
     try {
       const res = await axios.post('api/removeImg', {publicId})
     if(res.status === 200){
+      toast.success('Image removed')
       setPublicId('')
       setImgUrl('')
     }
@@ -65,6 +67,9 @@ const AddPostForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) {
+      if(!title){ 
+        toast.error('Title is required')
+      } else if (!content) { toast.error('Content is required')}
       setError("Title and content Are required");
       return;
     }
@@ -78,6 +83,7 @@ const AddPostForm = () => {
         publicId,
       });
       if (res.status === 200) {
+        toast.success('Successfully post added!')
         setError("");
         router.push("/");
       }

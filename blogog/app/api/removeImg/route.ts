@@ -7,6 +7,17 @@ cloudinary.v2.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
+const removeImage = async (publicId:string) => {
+    try {
+        const res = await cloudinary.v2.uploader.destroy(publicId)
+        console.log("image Removed")
+    } catch (error) {
+        console.log("Image cant be removed")
+    }
+}
+
 export async function POST(req:Request) {
+    const {publicId}  = await req.json()
+    await removeImage(publicId)
     return NextResponse.json({message:'success'})
 }

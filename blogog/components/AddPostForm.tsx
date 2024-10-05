@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoLink } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
-import { TCategory, UploadResult } from "@/app/types";
+import { TCategory } from "@/app/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FaRegImages } from "react-icons/fa";
@@ -23,7 +23,6 @@ const AddPostForm = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [publicId, setPublicId] = useState("");
   const [error, setError] = useState("");
-  const [imgRessource, setImgRessource] = useState([]);
 
   const router = useRouter();
 
@@ -51,6 +50,15 @@ const AddPostForm = () => {
 
   const removeImage = async (e:React.FormEvent) => {
     e.preventDefault()
+    try {
+      const res = await axios.post('api/removeImg', {publicId})
+    if(res.status === 200){
+      setPublicId('')
+      setImageUrl('')
+    }
+    } catch (error) {
+      console.log("Image Cant be Rremoved ", error)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -137,7 +145,7 @@ const AddPostForm = () => {
         )}
 
         <CldUploadWidget
-          uploadPreset="zpjvrpbk"
+          uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
           onSuccess={(result) => {
             setPublicId(result?.info?.public_id as string);
             setImageUrl(result?.info?.url as string);

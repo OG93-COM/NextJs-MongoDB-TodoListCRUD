@@ -18,11 +18,3 @@ export type TPost = {
     },
 }
 
-export interface UploadResult {
-    event: string;
-    info: {
-      secure_url: string;
-      public_id: string;
-      // Add other relevant fields from the response here if needed
-    };
-  }

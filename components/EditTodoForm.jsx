@@ -31,7 +31,7 @@ const EditTodoForm = ({ id, title, description }) => {
     }
     return (
         <>
-            <h1 className='text-xl font-bold border-b pb-3 text-slate-800'>Edit Todo <span className='text-slate-500 text-sm'>"{title}"</span></h1>
+            <h1 className='text-xl font-bold border-b pb-3 text-slate-800'>Edit Todo <span className='text-slate-500 text-sm'>{title}</span></h1>
             <form class="w-full mt-5 px-2" onSubmit={handleEditTodo}>
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     Title : {newTitle}

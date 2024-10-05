@@ -50,7 +50,7 @@ const Post = async ({
         <div className="w-full my-2 relative h-72">
           {thumbnail ? (
             <Image
-              className="rounded-xl shadow-sm object-cover"
+              className="rounded-md shadow-lg object-cover"
               src={thumbnail}
               fill
               alt={title}

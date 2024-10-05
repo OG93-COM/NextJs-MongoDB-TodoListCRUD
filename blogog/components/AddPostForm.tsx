@@ -67,7 +67,7 @@ const AddPostForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) {
-      if(!title){ 
+      if(!title){
         toast.error('Title is required')
       } else if (!content) { toast.error('Content is required')}
       setError("Title and content Are required");
@@ -86,9 +86,9 @@ const AddPostForm = () => {
         toast.success('Successfully post added!')
         setError("");
         router.push("/");
-      }
+      } 
     } catch (err) {
-      console.log(err);
+      toast.error("Something went wrong")
       setError("Post cant be ceated");
     }
   };

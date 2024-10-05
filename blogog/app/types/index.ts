@@ -7,7 +7,7 @@ export type TPost = {
     id: string,
     title: string,
     content: string,
-    imageUrl?: string,
+    imgUrl?: string,
     publicId: string,
     catName?: string,
     links: null | [],

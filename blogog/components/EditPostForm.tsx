@@ -17,7 +17,7 @@ const EditPostForm = ({post}:{post:TPost}) => {
   const [content, setContent] = useState("");
   const [categories, setCategories] = useState<TCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [publicId, setPublicId] = useState("");
   const [error, setError] = useState("");
   const router = useRouter()
@@ -33,14 +33,14 @@ const EditPostForm = ({post}:{post:TPost}) => {
     const initialitionValue = () =>{
       setTitle(post.title)
       setContent(post.content)
-      setImageUrl(post.imageUrl || "")
+      setImgUrl(post.imgUrl || "")
       setPublicId(post.publicId)
       setSelectedCategory(post.catName || "")
       setLinks(post.links || [])
     }
 
     initialitionValue()
-  }, [post.title, post.content, post.imageUrl, post.publicId, post.catName, post.links])
+  }, [post.title, post.content, post.imgUrl, post.publicId, post.catName, post.links])
 
   const addlink = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -63,7 +63,7 @@ const EditPostForm = ({post}:{post:TPost}) => {
     }
     
     try {
-      const res = await axios.put(`/api/posts/${post.id}`, { title, content, links, imageUrl, selectedCategory, publicId })
+      const res = await axios.put(`/api/posts/${post.id}`, { title, content, links, imgUrl, selectedCategory, publicId })
       if(res.status === 200){
         setError("");
         router.push("/dashboard")

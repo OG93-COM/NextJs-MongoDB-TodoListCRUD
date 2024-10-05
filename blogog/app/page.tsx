@@ -23,7 +23,7 @@ export default async function Home() {
       <div className="mx-1 p-4 lg:px-10">
         <CategotyList />
 
-        {posts?.length > 0 ? posts?.map((post:TPost) => (
+        {posts && posts.length > 0 ? posts?.map((post:TPost) => (
               <Post
                 key={post.id}
                 id={post.id}
@@ -33,7 +33,7 @@ export default async function Home() {
                 category={post.catName}
                 datepublished={post.createdAt}
                 links={post.links || []}
-                thumbnail={post.imageUrl}
+                thumbnail={post.imgUrl}
                 authoremail={post.authorEmail}
               />
             ))

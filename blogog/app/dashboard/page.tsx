@@ -34,7 +34,7 @@ const page = async () => {
     <div className="">
       <h1 className="title-page">My Posts : {session?.user?.name}</h1>
       <div className="mx-1 p-4 lg:px-10">
-        {posts?.length > 0 ? (
+        {posts && posts.length > 0 ? (
           posts.map((post:TPost) => (
             <Post
               key={post.id}
@@ -45,7 +45,7 @@ const page = async () => {
               category={post.catName}
               datepublished={post.createdAt}
               links={post.links || []}
-              thumbnail={post.imageUrl}
+              thumbnail={post.imgUrl}
               authoremail={post.authorEmail}
             />
           ))

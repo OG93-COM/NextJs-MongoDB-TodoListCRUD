@@ -1,16 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { IoLink } from "react-icons/io5";
-import { AiOutlineDelete } from "react-icons/ai";
 import { TCategory } from "@/app/types";
+import Link from "next/link";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { FaRegImages } from "react-icons/fa";
-import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { CldUploadWidget } from "next-cloudinary";
+
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { AiOutlineDelete } from "react-icons/ai";
+import { IoLink } from "react-icons/io5";
+import { FaRegImages } from "react-icons/fa";
 import { FcRemoveImage } from "react-icons/fc";
 
 const AddPostForm = () => {
@@ -20,7 +21,7 @@ const AddPostForm = () => {
   const [content, setContent] = useState("");
   const [categories, setCategories] = useState<TCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [publicId, setPublicId] = useState("");
   const [error, setError] = useState("");
 
@@ -54,7 +55,7 @@ const AddPostForm = () => {
       const res = await axios.post('api/removeImg', {publicId})
     if(res.status === 200){
       setPublicId('')
-      setImageUrl('')
+      setImgUrl('')
     }
     } catch (error) {
       console.log("Image Cant be Rremoved ", error)
@@ -72,7 +73,7 @@ const AddPostForm = () => {
         title,
         content,
         links,
-        imageUrl,
+        imgUrl,
         selectedCategory,
         publicId,
       });
@@ -148,7 +149,7 @@ const AddPostForm = () => {
           uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
           onSuccess={(result) => {
             setPublicId(result?.info?.public_id as string);
-            setImageUrl(result?.info?.url as string);
+            setImgUrl(result?.info?.url as string);
           }}
         >
           {({ open }) => {
@@ -159,9 +160,9 @@ const AddPostForm = () => {
               >
                 <FaRegImages size={24} />
                 Upload Image for the post
-                {imageUrl && (
+                {imgUrl && (
                   <Image
-                    src={imageUrl}
+                    src={imgUrl}
                     fill
                     alt={title}
                     className="rounded-xl absolute object-cover inset-0"

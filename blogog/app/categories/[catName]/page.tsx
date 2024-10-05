@@ -44,7 +44,7 @@ const page = async ({params}:{params:{catName:string}}) => {
                 category={post.catName}
                 datepublished={post.createdAt}
                 links={post.links || []}
-                thumbnail={post.imageUrl}
+                thumbnail={post.imgUrl}
                 authoremail={post.authorEmail}
               />
             ))

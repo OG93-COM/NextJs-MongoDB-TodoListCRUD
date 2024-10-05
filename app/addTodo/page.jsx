@@ -12,7 +12,7 @@ const AddTodoPage = () => {
     const addTodo = async (title, description) => {
         if (title !== "" && description !== "") {
             try {
-                const res = await axios.post("http://localhost:3000/api/todos/", { title, description })
+                const res = await axios.post("http://next-js-starting-zeta.vercel.app/api/todos/", { title, description })
                 router.refresh()
                 router.push('/')
             } catch (error) {
